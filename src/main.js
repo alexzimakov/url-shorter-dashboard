@@ -6,6 +6,8 @@ import 'element-ui/lib/theme-default/index.css';
 import App from './App';
 import store from './store';
 import router from './router';
+// Add support of Font Awesome icons.
+import './font-awesome-icons.less';
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
