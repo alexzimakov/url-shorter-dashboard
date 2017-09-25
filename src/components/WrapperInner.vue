@@ -14,7 +14,10 @@
 </script>
 
 <style>
-  .wrapper-inner {
-    flex: 1;
-  }
+.wrapper-inner {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+}
 </style>
