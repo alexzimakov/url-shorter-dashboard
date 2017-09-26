@@ -6,12 +6,14 @@ import actions from './actions';
 
 Vue.use(Vuex);
 
-const store = {
-  state: {},
+const store = new Vuex.Store({
+  state: {
+    session: null,
+  },
   getters,
   mutations,
   actions,
-};
+});
 
 
 export default store;
