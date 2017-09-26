@@ -1,1 +1,5 @@
-export default {};
+export default {
+  isLoggedIn(state) {
+    return !!(state.session);
+  },
+};
