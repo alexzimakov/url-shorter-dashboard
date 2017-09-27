@@ -2,29 +2,32 @@
   <wrapper>
     <l-header></l-header>
     <wrapper-inner>
-      <router-view></router-view>
+      <home-auth-content v-if="isLoggedIn"></home-auth-content>
     </wrapper-inner>
     <l-footer></l-footer>
   </wrapper>
 </template>
 
 <script>
-  import { getComponentsObject } from '@/utils';
-  import Wrapper from './Wrapper';
-  import WrapperInner from './WrapperInner';
-  import Header from './Header';
-  import Footer from './Footer';
+import { mapGetters } from 'vuex';
+import { getComponentsObject } from '@/utils';
+import Wrapper from './Wrapper';
+import WrapperInner from './WrapperInner';
+import Header from './Header';
+import Footer from './Footer';
+import HomeAuthContent from './HomeAuthContent';
 
-  export default {
-    name: 'app',
-    components: getComponentsObject([
-      Wrapper,
-      WrapperInner,
-      Header,
-      Footer,
-    ]),
-  };
+export default {
+  name: 'home',
+  computed: {
+    ...mapGetters(['isLoggedIn']),
+  },
+  components: getComponentsObject([
+    Wrapper,
+    WrapperInner,
+    Header,
+    Footer,
+    HomeAuthContent,
+  ]),
+};
 </script>
-
-<style>
-</style>
