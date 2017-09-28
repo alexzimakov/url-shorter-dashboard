@@ -1,8 +1,8 @@
 <template>
   <wrapper>
     <wrapper-inner>
-      <div class="content">
-        <div class="content-inner">
+      <div class="fullpage-content">
+        <div class="fullpage-content-inner">
           <el-row>
             <el-col :xs="{ span: 22, offset: 1 }"
                     :sm="{ span: 14, offset: 5 }"
@@ -172,7 +172,7 @@
 </script>
 
 <style lang="scss" scopped>
-.content {
+.fullpage-content {
   display: flex;
   align-items: center;
   justify-content: center;
