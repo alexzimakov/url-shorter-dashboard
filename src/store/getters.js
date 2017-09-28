@@ -3,6 +3,9 @@ export default {
     return !!(state.session);
   },
   authorizationHeader(state) {
+    if (!state.session) {
+      return null;
+    }
     return `Bearer ${state.session.token}`;
   },
 };
