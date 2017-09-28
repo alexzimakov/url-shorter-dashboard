@@ -234,16 +234,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content {
-  width: 100%;
-  height: 100%;
-  max-width: 1140px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 16px;
-  box-sizing: border-box;
-}
-
 .cell {
   white-space: nowrap;
   padding: 0;

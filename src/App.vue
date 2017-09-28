@@ -41,6 +41,16 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
+.content {
+  width: 100%;
+  height: 100%;
+  max-width: 1140px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
 .help {
   color: #8492A6;
   font-size: 14px;
