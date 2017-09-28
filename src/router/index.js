@@ -5,6 +5,7 @@ import Home from '@/components/Home';
 import Info from '@/components/Info';
 import Register from '@/components/Register';
 import Login from '@/components/Login';
+import NotFound from '@/components/NotFound';
 
 Vue.use(Router);
 
@@ -32,6 +33,11 @@ export default new Router({
       name: 'login',
       component: Login,
       beforeEnter: requireGuest,
+    },
+    {
+      path: '*',
+      name: 'notFound',
+      component: NotFound,
     },
   ],
 });
