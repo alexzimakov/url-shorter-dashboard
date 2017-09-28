@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import { requireGuest } from '@/utils/auth';
 import Home from '@/components/Home';
+import Info from '@/components/Info';
 import Register from '@/components/Register';
 import Login from '@/components/Login';
 
@@ -14,6 +15,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
+    },
+    {
+      path: '/info/:id',
+      name: 'info',
+      component: Info,
     },
     {
       path: '/register',
