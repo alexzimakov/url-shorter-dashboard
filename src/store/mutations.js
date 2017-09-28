@@ -5,6 +5,10 @@ export default {
     Vue.set(state, 'session', payload);
     localStorage.setItem('session', JSON.stringify(payload));
   },
+  logout(state) {
+    Vue.set(state, 'session', null);
+    localStorage.removeItem('session');
+  },
   updateLinks(state, payload = []) {
     payload.forEach((rawLink) => {
       const link = rawLink;
