@@ -58,13 +58,21 @@
         >          
           <el-table-column prop="url" label="URL">
             <template scope="props">
-              <a class="cell link" :href="props.row.url">{{ props.row.url | link }}</a>
+              <a
+                :href="props.row.url"
+                class="cell link"
+                target="_blank"
+              >{{ props.row.url | link }}</a>
             </template>
           </el-table-column>
           
           <el-table-column prop="shortenUrl" label="Короткая ссылка">
             <template scope="props">
-              <a class="cell link" :href="props.row.shortenUrl" target="_blank">{{ props.row.shortenUrl | link }}</a>
+              <a
+                :href="props.row.shortenUrl"
+                class="cell link"
+                target="_blank"
+              >{{ props.row.shortenUrl | link }}</a>
             </template>
           </el-table-column>
           
@@ -74,9 +82,9 @@
             </template>
           </el-table-column>
           
-          <el-table-column prop="clicks" label="Клики" width="88">
+          <el-table-column prop="totalClicks" label="Клики" width="88">
             <template scope="props">
-              <span class="cell">{{ props.row.clicks }}</span>
+              <span class="cell">{{ props.row.totalClicks }}</span>
             </template>
           </el-table-column>
           
@@ -87,10 +95,10 @@
                   <i slot="reference" class="el-icon-more"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item class="dropdown-item" :command="`info:${props.row.id}`">
+                  <el-dropdown-item class="dropdown-item" :command="`info:${props.row.key}`">
                     Подробнее
                   </el-dropdown-item>
-                  <el-dropdown-item class="dropdown-item" :command="`delete:${props.row.id}`">
+                  <el-dropdown-item class="dropdown-item" :command="`delete:${props.row.key}`">
                     Удалить
                   </el-dropdown-item>
                 </el-dropdown-menu>
@@ -104,9 +112,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import { parseTagsString } from '@/utils';
-import env from '@/env';
 
 export default {
   name: 'home-auth-content',
@@ -137,14 +144,9 @@ export default {
       },
     };
   },
-  computed: mapState({
-    links: state => Object.entries(state.links).map(([id, link]) => ({
-      id,
-      url: link.url,
-      shortenUrl: `${env.serverHost}/${link.hash}`,
-      createdAt: new Date(link.createdAt),
-      clicks: Object.values(link.clicks).reduce((total, num) => total + num, 0),
-    })),
+  computed: mapGetters({
+    Authorization: 'authorizationHeader',
+    links: 'linksOfLoggedInUser',
   }),
   methods: {
     handleResponseErrors(response) {
@@ -164,11 +166,11 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const body = { ...this.formData, tags: parseTagsString(this.formData.tags) };
-          const headers = { Authorization: this.$store.getters.authorizationHeader };
+          const headers = { Authorization: this.Authorization };
 
           this.$http.post('api/v1/links', body, { headers })
             .then((response) => {
-              this.$store.commit('updateLinks', [response.body.data.link]);
+              this.$store.commit('updateLinks', response.body.data.link);
               this.resetForm(formName);
             })
             .catch((response) => {
@@ -214,9 +216,9 @@ export default {
       }
     },
   },
-  mounted() {
+  created() {
     const userId = this.$store.state.session.user._id;
-    const headers = { Authorization: this.$store.getters.authorizationHeader };
+    const headers = { Authorization: this.Authorization };
 
     this.fetching = true;
     this.$http.get(`api/v1/users/${userId}/links`, { headers })
