@@ -8,6 +8,11 @@
                     :sm="{ span: 14, offset: 5 }"
                     :md="{ span: 10, offset: 7 }">
               <div class="form-container">
+                <el-tooltip class="item" effect="dark" content="Вернуться на главную страницу" placement="right">
+                  <router-link class="home-link" to="/">
+                    <i class="el-icon-fa-arrow-circle-left" aria-hidden="true"></i>
+                  </router-link>
+                </el-tooltip>
                 <h1>URL Shorter вход</h1>
                 <div v-show="processingErrors" class="errors-box">
                   <ul>
@@ -52,9 +57,9 @@
                     >Войти</el-button>
                   </el-form-item>
                 </el-form>
-                <p class="actions">
+                <div class="form-container-footer">
                   Ещё не зарегистрированы? <router-link to="/register">Создать аккаунт</router-link>
-                </p>
+                </div>
               </div>
             </el-col>
           </el-row>
@@ -159,21 +164,36 @@
   padding: 16px 24px;
   border-radius: 5px;
   background: #FFFFFF;
+  margin: 16px 0;
 
   h1 {
     margin-bottom: 40px;
     color: #324057;
     text-align: center;
   }
+
+  &-footer {
+    color: #475669;
+    text-align: center;
+
+    a {
+      color: #20A0FF;
+      white-space: nowrap;
+    }
+  }
 }
 
-.actions {
-  color: #475669;
-  text-align: center;
+.home-link {
+  font-size: 24px;
+  color: #99A9BF;
+  transition: 150ms;
 
-  a {
-    color: #20A0FF;
-    white-space: nowrap;
+  &:hover {
+    color: #475669;
+  }
+
+  > * {
+    font-size: inherit !important;
   }
 }
 </style>

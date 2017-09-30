@@ -10,16 +10,27 @@ export default {
     localStorage.removeItem('session');
   },
   updateLinks(state, payload = []) {
-    payload.forEach((rawLink) => {
+    let links = payload;
+
+    if (!Array.isArray(payload)) {
+      links = [payload];
+    }
+
+    links.forEach((rawLink) => {
       const link = rawLink;
       const id = link._id;
 
       delete link._id;
-
-      Vue.set(state.links, id, rawLink);
+      link.key = id;
+      Vue.set(state.links.items, id, rawLink);
     });
   },
   deleteLink(state, id) {
-    Vue.delete(state.links, id);
+    Vue.delete(state.links.entities, id);
+  },
+  setFiltersForLinks(state, filters) {
+    Object.entries(filters).forEach(([filter, value]) => {
+      Vue.set(state.links.filters, filter, value);
+    });
   },
 };

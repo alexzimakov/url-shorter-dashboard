@@ -9,7 +9,10 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     session: JSON.parse(localStorage.getItem('session')),
-    links: {},
+    links: {
+      items: {},
+      filters: {},
+    },
   },
   getters,
   mutations,
