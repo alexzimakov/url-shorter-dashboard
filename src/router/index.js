@@ -4,6 +4,7 @@ import { requireAuth, requireGuest } from '@/utils/auth';
 import Home from '@/components/Home';
 import Info from '@/components/Info';
 import Tags from '@/components/Tags';
+import Account from '@/components/Account';
 import Register from '@/components/Register';
 import Login from '@/components/Login';
 import Logout from '@/components/Logout';
@@ -28,6 +29,12 @@ export default new Router({
       path: '/tags/:tag',
       name: 'tags',
       component: Tags,
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component: Account,
+      beforeEnter: requireAuth,
     },
     {
       path: '/register',
