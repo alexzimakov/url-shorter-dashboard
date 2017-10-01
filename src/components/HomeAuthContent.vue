@@ -51,16 +51,17 @@
         <h4>Сокращённые ссылки</h4>
         <el-table
           v-loading.body="fetching"
-          :data="links" style="width: 100%"
+          :data="links"
+          style="width: 100%"
           :default-sort="{ prop: 'createdAt', order: 'descending' }"
           :show-header="links.length > 0"
           empty-text="Нет сокращённых ссылок."
         >          
-          <el-table-column prop="url" label="URL">
+          <el-table-column prop="url" label="URL" :style="{ color: 'red' }">
             <template scope="props">
               <a
                 :href="props.row.url"
-                class="cell link"
+                class="link"
                 target="_blank"
               >{{ props.row.url | link }}</a>
             </template>
@@ -70,7 +71,7 @@
             <template scope="props">
               <a
                 :href="props.row.shortenUrl"
-                class="cell link"
+                class="link"
                 target="_blank"
               >{{ props.row.shortenUrl | link }}</a>
             </template>
@@ -78,13 +79,13 @@
           
           <el-table-column prop="createdAt" label="Создана" width="160">
             <template scope="props">
-              <span class="cell">{{ props.row.createdAt | date(null, true) }}</span>
+              <span>{{ props.row.createdAt | date(null, true) }}</span>
             </template>
           </el-table-column>
           
           <el-table-column prop="totalClicks" label="Клики" width="88">
             <template scope="props">
-              <span class="cell">{{ props.row.totalClicks }}</span>
+              <span>{{ props.row.totalClicks }}</span>
             </template>
           </el-table-column>
           
@@ -236,11 +237,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.cell {
-  white-space: nowrap;
-  padding: 0;
-}
-
 .link {
   color: #1D8CE0;
   text-decoration: none;
@@ -258,5 +254,11 @@ export default {
     color: inherit;
     text-decoration: inherit;
   }
+}
+</style>
+
+<style lang="scss">
+.el-table td {
+  max-width: 176px;
 }
 </style>
