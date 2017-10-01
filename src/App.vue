@@ -9,14 +9,10 @@ export default {
   name: 'app',
   methods: {
     showOfflineNotification() {
-      this.$message({
-        message: 'Нет подключения к Интернету.',
-        type: 'warning',
-        showClose: true,
-      });
+      this.$message.warning('Нет подключения к Интернету.');
     },
   },
-  mounted() {
+  created() {
     if (!navigator.onLine) {
       this.showOfflineNotification();
     }
@@ -41,6 +37,11 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
+a {
+  color: #20A0FF;
+  white-space: nowrap;
+}
+
 .content {
   width: 100%;
   height: 100%;
@@ -49,26 +50,5 @@ html, body {
   margin-right: auto;
   padding: 16px;
   box-sizing: border-box;
-}
-
-.help {
-  color: #8492A6;
-  font-size: 14px;
-
-  &.is-danger {
-    color: #FF4949;
-  }
-}
-
-.is-danger input {
-  border-color: #FF4949;
-}
-
-.errors-box {
-  margin-bottom: 16px;
-  padding: 8px 16px;
-  border-radius: 5px;
-  background: #FF4949;
-  color: #FFFFFF;
 }
 </style>

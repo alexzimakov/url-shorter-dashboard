@@ -8,19 +8,20 @@
                     :sm="{ span: 14, offset: 5 }"
                     :md="{ span: 10, offset: 7 }">
               <div class="form-container">
-                <el-tooltip class="item" effect="dark" content="Вернуться на главную страницу" placement="right">
-                  <router-link class="home-link" to="/">
-                    <i class="el-icon-fa-arrow-circle-left" aria-hidden="true"></i>
-                  </router-link>
-                </el-tooltip>
+                <back-link></back-link>
                 <h1>URL Shorter вход</h1>
-                <div v-show="processingErrors" class="errors-box">
-                  <ul>
+                <el-alert
+                  :style="{ marginBottom: '16px' }"
+                  title="Произошла ошибка во время аутентификации"
+                  type="error"
+                  v-show="processingErrors"
+                >
+                  <ul :style="{ fontSize: '12px', paddingLeft: '16px' }">
                     <li v-for="(error, field, index) in processingErrors" :key="field">
                       {{ error }}
                     </li>
                   </ul>
-                </div>
+                </el-alert>
                 <el-form
                   :label-position="labelPosition"
                   :model="formData"
@@ -70,130 +71,78 @@
 </template>
 
 <script>
-  import { getComponentsObject } from '@/utils';
-  import Wrapper from './Wrapper';
-  import WrapperInner from './WrapperInner';
+import { getComponentsObject } from '@/utils';
+import Wrapper from './Wrapper';
+import WrapperInner from './WrapperInner';
+import BackLink from './BackLink';
 
-  export default {
-    name: 'login',
-    data() {
-      return {
-        processing: false,
-        processingErrors: null,
-        labelPosition: 'top',
-        passwordIsVisible: false,
-        formData: {
-          username: '',
-          password: '',
-        },
-        validators: {
-          username: [
-            {
-              required: true,
-              message: 'Введите имя пользователя.',
-              trigger: 'blur',
-            },
-          ],
-          password: [
-            {
-              required: true,
-              message: 'Введите пароль.',
-              trigger: 'blur',
-            },
-          ],
-        },
-      };
-    },
-    methods: {
-      togglePasswordVisibility() {
-        this.passwordIsVisible = !this.passwordIsVisible;
+export default {
+  name: 'login',
+  data() {
+    return {
+      processing: false,
+      processingErrors: null,
+      labelPosition: 'top',
+      passwordIsVisible: false,
+      formData: {
+        username: '',
+        password: '',
       },
-      onSubmit(formName) {
-        this.processing = true;
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$http.post('services/login', this.formData)
-              .then((response) => {
-                const { authData: { token }, user } = response.body.data;
+      validators: {
+        username: [
+          {
+            required: true,
+            message: 'Введите имя пользователя.',
+            trigger: 'blur',
+          },
+        ],
+        password: [
+          {
+            required: true,
+            message: 'Введите пароль.',
+            trigger: 'blur',
+          },
+        ],
+      },
+    };
+  },
+  methods: {
+    togglePasswordVisibility() {
+      this.passwordIsVisible = !this.passwordIsVisible;
+    },
+    onSubmit(formName) {
+      this.processing = true;
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$http.post('services/login', this.formData)
+            .then((response) => {
+              const { authData: { token }, user } = response.body.data;
 
-                this.$store.commit('authenticate', { token, user });
-                this.$router.push({ path: '/' });
-              })
-              .catch((response) => {
-                if (response.status === 0) {
-                  this.processingErrors = { network: 'Сервер временно недоступен. Попробуйте позже.' };
-                } else if (response.body.status === 'fail') {
-                  this.processingErrors = response.body.data.error.meta.body;
-                } else if (response.body.status === 'error') {
-                  this.processingErrors = { serverError: response.body.data.error.message };
-                }
-              })
-              .then(() => {
-                this.processing = false;
-              });
-          } else {
-            this.processing = false;
-          }
-        });
-      },
+              this.$store.commit('authenticate', { token, user });
+              this.$router.push({ path: '/' });
+            })
+            .catch((response) => {
+              if (response.status === 0) {
+                this.processingErrors = { network: 'Сервер временно недоступен. Попробуйте позже.' };
+              } else if (response.body.status === 'fail') {
+                this.processingErrors = response.body.data.error.meta.body;
+              } else if (response.body.status === 'error') {
+                this.processingErrors = { serverError: response.body.data.error.message };
+              }
+            })
+            .then(() => {
+              this.processing = false;
+            });
+        } else {
+          this.processing = false;
+        }
+      });
     },
-    components: getComponentsObject([
-      Wrapper,
-      WrapperInner,
-    ]),
-  };
+  },
+  components: getComponentsObject([
+    Wrapper,
+    WrapperInner,
+    BackLink,
+  ]),
+};
 </script>
-
-<style lang="scss" scopped>
-.fullpage-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100%;
-  width: 100%;
-  background-color: #20A0FF;
-  background-image: linear-gradient(#58B7FF, #1D8CE0);
-
-  &-inner {
-    max-width: 1140px;
-    width: 100%;
-  }
-}
-
-.form-container {
-  padding: 16px 24px;
-  border-radius: 5px;
-  background: #FFFFFF;
-  margin: 16px 0;
-
-  h1 {
-    margin-bottom: 40px;
-    color: #324057;
-    text-align: center;
-  }
-
-  &-footer {
-    color: #475669;
-    text-align: center;
-
-    a {
-      color: #20A0FF;
-      white-space: nowrap;
-    }
-  }
-}
-
-.home-link {
-  font-size: 24px;
-  color: #99A9BF;
-  transition: 150ms;
-
-  &:hover {
-    color: #475669;
-  }
-
-  > * {
-    font-size: inherit !important;
-  }
-}
-</style>

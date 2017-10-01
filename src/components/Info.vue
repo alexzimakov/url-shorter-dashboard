@@ -3,9 +3,7 @@
     <l-header></l-header>
     <wrapper-inner>
       <main class="content" v-loading.fullscreen.lock="fetching">
-        <el-button class="back-button" @click="goBack">
-          <i class="el-icon-fa-long-arrow-left" aria-hidden="true"></i> Назад
-        </el-button>
+        <back-link></back-link>
         <template v-if="link">
           <h1 v-show="link.hash" class="title">
             Информация о <a :href="url">{{ url | link }}</a>
@@ -37,6 +35,7 @@ import env from '@/env';
 import Wrapper from './Wrapper';
 import WrapperInner from './WrapperInner';
 import Header from './Header';
+import BackLink from './BackLink';
 import Footer from './Footer';
 import LinkStatistics from './LinkSatistics';
 
@@ -130,9 +129,6 @@ export default {
           this.fetching = false;
         });
     },
-    goBack() {
-      this.$router.back();
-    },
   },
   mounted() {
     this.fetchLink();
@@ -141,6 +137,7 @@ export default {
     Wrapper,
     WrapperInner,
     Header,
+    BackLink,
     Footer,
     LinkStatistics,
   ]),
