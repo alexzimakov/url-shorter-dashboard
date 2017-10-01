@@ -96,6 +96,15 @@ var webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
+    ]),
+
+    // Copy _redirects
+    new CopyWebpackPlugin([
+      {
+        from: config.build._redirects,
+        to: config.build.assetsRoot,
+        ignore: ['.*']
+      }
     ])
   ]
 })

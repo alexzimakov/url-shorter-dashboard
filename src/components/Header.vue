@@ -12,7 +12,7 @@
           v-model="userContextMenuIsVisible"
         >
           <label slot="reference" class="avatar">
-            {{ initials | uppercase }}
+            {{ initials.toUpperCase() }}
           </label>
           <ul class="context-menu-links">
             <li>
