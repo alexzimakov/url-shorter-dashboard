@@ -12,14 +12,14 @@
           v-model="userContextMenuIsVisible"
         >
           <label slot="reference" class="avatar">
-            {{ initials }}
+            {{ initials | uppercase }}
           </label>
           <ul class="context-menu-links">
             <li>
-              <h4 class="fullname">{{ fullName }}</h4>
+              <h4 class="fullname">{{ fullName | capitalize }}</h4>
             </li>
             <li>
-              <router-link to="/profile">Мой аккаунт</router-link>
+              <router-link to="/account">Aккаунт</router-link>
             </li>
             <li>
               <router-link to="/logout">Выйти</router-link>
@@ -60,7 +60,7 @@ export default {
         const { user } = state.session;
 
         if (user.firstName && user.lastName) {
-          return `${user.firstName}${user.lastName}`;
+          return `${user.firstName} ${user.lastName}`;
         }
 
         if (user.firstName) {

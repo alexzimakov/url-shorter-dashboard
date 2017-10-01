@@ -9,6 +9,10 @@ export default {
     Vue.set(state, 'session', null);
     localStorage.removeItem('session');
   },
+  updateUser(state, user) {
+    Vue.set(state.session, 'user', user);
+    localStorage.setItem('session', JSON.stringify(state.session));
+  },
   updateLinks(state, payload = []) {
     let links = payload;
 

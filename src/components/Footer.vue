@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="footer-inner">
-      <p class="copyright">&copy; {{ (new Date).getFullYear() }} URL shorter</p>
+      <p class="copyright">&copy; {{ (new Date).getFullYear() }} {{ hostname }}</p>
     </div>
   </footer>
 </template>
@@ -9,6 +9,11 @@
 <script>
 export default {
   name: 'l-footer',
+  data() {
+    return {
+      hostname: location.hostname,
+    };
+  },
 };
 </script>
 
