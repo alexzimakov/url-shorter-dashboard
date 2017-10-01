@@ -5,7 +5,6 @@ import VueResource from 'vue-resource';
 import ElementUI from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/ru-RU';
 import 'element-ui/lib/theme-default/index.css';
-import Vue2Filters from 'vue2-filters';
 import env from './env';
 import App from './App';
 import filters from './filters';
@@ -23,7 +22,6 @@ Vue.http.options.root = env.serverHost;
 Vue.use(ElementUI, { locale });
 
 // Setting custom filters.
-Vue.use(Vue2Filters);
 Object.entries(filters).forEach(([name, filter]) => {
   Vue.filter(name, filter);
 });
